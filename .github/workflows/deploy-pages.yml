@@ -1,7 +1,7 @@
 name: Deploy to GitHub Pages
 
 on:
-  push:
+s  push:
     branches:
       - main
 
@@ -15,7 +15,7 @@ jobs:
 
     - name: Replace Supabase Anon Key Placeholder
       run: |
-        sed -i '' "s|__SUPAKEY__|${{ secrets.SUPABASE_ANON_KEY }}|g" main.js
+        sed -i "s|__SUPAKEY__|${{ secrets.SUPABASE_ANON_KEY }}|g" main.js
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v4
