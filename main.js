@@ -1,32 +1,30 @@
 const supabaseUrl = "https://yqftpmmzypdtfxgzcguk.supabase.co";
-const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlxZnRwbW16eXBkdGZ4Z3pjZ3VrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM4OTYxMTcsImV4cCI6MjA2OTQ3MjExN30.JJt4dR42DnLeyCYEoH8wUmoFXPTX8697kJjCzVaHlls";
+const supabaseAnonKey = "__SUPAKEY__";
 
 const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
 
 async function getProfileData() {
     const dataContainer = document.getElementById('profile-data-container');
     if (!dataContainer) {
-        console.error('Elemen HTML dengan ID "profile-data-container" tidak ditemukan.');
+        return;
+    }
+
+    if (supabaseAnonKey === "__SUPAKEY__") {
+        dataContainer.innerHTML = '<p>Sedang dalam pengembangan atau error konfigurasi. Data tidak dapat dimuat.</p>';
         return;
     }
 
     try {
-
         const { data, error } = await supabase
             .from('profile')
             .select('*');
 
         if (error) {
-            console.error('Error fetching data from Supabase:', error.message);
             dataContainer.innerHTML = `<p>Detail Error: ${error.message}</p>`;
             return;
         }
 
-        
-
         if (data && data.length > 0) {
-            console.log('Data dari Supabase (di konsol browser):', data);
-
             dataContainer.innerHTML = '<h2>Data Profil Anda:</h2>';
             data.forEach(item => {
                 const profileElement = document.createElement('div');
@@ -48,13 +46,10 @@ async function getProfileData() {
                 `;
                 dataContainer.appendChild(profileElement);
             });
-
         } else {
-            console.log('Tidak ada data profil yang ditemukan di Supabase.');
             dataContainer.innerHTML = '<h2>Tidak ada data profil yang ditemukan.</h2>';
         }
     } catch (err) {
-        console.error('Terjadi error saat memuat data:', err);
         dataContainer.innerHTML = '<h2>Terjadi kesalahan pada aplikasi.</h2>';
     }
 }
