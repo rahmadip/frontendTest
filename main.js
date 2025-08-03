@@ -1,16 +1,11 @@
 const supabaseUrl = "https://yqftpmmzypdtfxgzcguk.supabase.co";
-const supabaseAnonKey = "__SUPAKEY__";
+const supabaseAnonKey = "__SUPABASE_KEY__";
 
 const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
 
 async function getProfileData() {
     const dataContainer = document.getElementById('profile-data-container');
     if (!dataContainer) {
-        return;
-    }
-
-    if (supabaseAnonKey === "__SUPAKEY__") {
-        dataContainer.innerHTML = '<p>Sedang dalam pengembangan atau error konfigurasi. Data tidak dapat dimuat.</p>';
         return;
     }
 

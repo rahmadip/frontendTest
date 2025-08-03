@@ -1,0 +1,23 @@
+name: Deploy ke GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout kode
+      uses: actions/checkout@v3
+
+    - name: Ganti placeholder API key
+      run: |
+        sed -i 's|__SUPABASE_KEY__|${{ secrets.SUPABASE_KEY }}|g' main.js
+
+    - name: Deploy ke GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: .
